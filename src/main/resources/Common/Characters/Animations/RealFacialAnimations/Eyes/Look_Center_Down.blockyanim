@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "duration": 3,
+  "holdLastKeyframe": true,
+  "nodeAnimations": {
+    "R-Eye": {
+      "position": [
+        {
+          "time": 3,
+          "delta": {"x": 0, "y": -2.75, "z": 0},
+          "interpolationType": "linear"
+        }
+      ],
+      "orientation": [],
+      "shapeStretch": [],
+      "shapeVisible": [],
+      "shapeUvOffset": []
+    },
+    "L-Eye": {
+      "position": [
+        {
+          "time": 3,
+          "delta": {"x": 0, "y": -2.75, "z": 0},
+          "interpolationType": "linear"
+        }
+      ],
+      "orientation": [],
+      "shapeStretch": [],
+      "shapeVisible": [],
+      "shapeUvOffset": []
+    }
+  }
+}
