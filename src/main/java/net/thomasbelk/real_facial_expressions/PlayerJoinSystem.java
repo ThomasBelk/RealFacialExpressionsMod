@@ -45,7 +45,11 @@ public class PlayerJoinSystem extends RefSystem<EntityStore> {
 
         // assign the player a faceId
         // this line feels a bit odd... look into refactoring
-        facePacketStore.addOrUpdatePlayerFaceId(playerRef.getUuid(), facePacketStore.getNewFaceId());
+        var id = facePacketStore.getNewFaceId();
+        RealFacialExpressionsPlugin.LOGGER.atInfo().log("ID = " + id.toString());
+        facePacketStore.addOrUpdatePlayerFaceId(playerRef.getUuid(), id);
+
+        playerRef.sendMessage(Message.raw(id.toString()));
     }
 
     @Override
@@ -61,4 +65,6 @@ public class PlayerJoinSystem extends RefSystem<EntityStore> {
     public @Nullable Query<EntityStore> getQuery() {
         return Archetype.of(PlayerRef.getComponentType());
     }
+
+    // TODO when rejoining try to use same id
 }

@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public record FacePacket(
         UUID faceId,
+        String lookDir,
         Map<String, Float> blendShapes
 ) {
 }

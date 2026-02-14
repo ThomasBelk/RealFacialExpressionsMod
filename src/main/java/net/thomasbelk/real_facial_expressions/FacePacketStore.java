@@ -52,6 +52,7 @@ public class FacePacketStore {
     }
 
     public boolean hasValidFaceId(UUID faceId) {
+        if (faceId == null) return false;
         return activeFaceIds.contains(faceId);
     }
 

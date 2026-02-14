@@ -1,6 +1,7 @@
 package net.thomasbelk.real_facial_expressions;
 
 import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import net.thomasbelk.real_facial_expressions.look.LookCommand;
@@ -8,7 +9,7 @@ import net.thomasbelk.real_facial_expressions.look.LookCommand;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class RealFacialExpressionsPlugin extends JavaPlugin {
-    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
+    public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     private FacePacketStore facePacketStore;
     private int facePacketPort = 25590;
 
@@ -32,6 +33,7 @@ public class RealFacialExpressionsPlugin extends JavaPlugin {
 
         // register systems
         entityStoreRegistry.registerSystem(new PlayerJoinSystem(this.facePacketStore));
+        entityStoreRegistry.registerSystem(new FaceAnimationSystem(this.facePacketStore));
 
         // register commands
         this.getCommandRegistry().registerCommand(new LookFrontCommand());
