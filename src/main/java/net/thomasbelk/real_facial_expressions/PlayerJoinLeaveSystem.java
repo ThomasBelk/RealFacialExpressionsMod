@@ -9,10 +9,10 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
-public class PlayerJoinSystem extends RefSystem<EntityStore> {
+public class PlayerJoinLeaveSystem extends RefSystem<EntityStore> {
     FacePacketStore facePacketStore;
 
-    public PlayerJoinSystem(FacePacketStore facePacketStore) {
+    public PlayerJoinLeaveSystem(FacePacketStore facePacketStore) {
         this.facePacketStore = facePacketStore;
     }
 
@@ -30,26 +30,23 @@ public class PlayerJoinSystem extends RefSystem<EntityStore> {
 
         var playerFaceAnimType = PlayerFaceAnimationComponent.getComponentType();
         var playerFaceAnimComponent = store.getComponent(ref, playerFaceAnimType);
-
+        var id = facePacketStore.getNewFaceId();
         if (playerFaceAnimComponent != null) {
-            playerRef.sendMessage(Message.raw(
-                    "Already has component: " + playerFaceAnimComponent.toString()
-            ));
+//            playerRef.sendMessage(Message.raw(
+//                    "Already has component: " + playerFaceAnimComponent.toString()
+//            ));
+            id = playerFaceAnimComponent.getUniqueId();
         } else {
             var p = new PlayerFaceAnimationComponent();
             commandBuffer.addComponent(ref, playerFaceAnimType, p);
-            playerRef.sendMessage(Message.raw(
-                    "Added component: " + p.toString()
-            ));
+//            playerRef.sendMessage(Message.raw(
+//                    "Added component: " + p.toString()
+//            ));
+            playerRef.sendMessage(Message.raw(id.toString()));
         }
 
-        // assign the player a faceId
-        // this line feels a bit odd... look into refactoring
-        var id = facePacketStore.getNewFaceId();
-        RealFacialExpressionsPlugin.LOGGER.atInfo().log("ID = " + id.toString());
+        RealFacialExpressionsPlugin.LOGGER.atInfo().log(playerRef.getUsername() + "'s FaceId = " + id.toString());
         facePacketStore.addOrUpdatePlayerFaceId(playerRef.getUuid(), id);
-
-        playerRef.sendMessage(Message.raw(id.toString()));
     }
 
     @Override
@@ -58,7 +55,14 @@ public class PlayerJoinSystem extends RefSystem<EntityStore> {
 
         var playerRef = store.getComponent(ref, PlayerRef.getComponentType());
         if (playerRef == null) return;
-        facePacketStore.removePlayer(playerRef.getUuid());
+
+        var playerId = playerRef.getUuid();
+        var faceId = facePacketStore.getFaceId(playerId);
+        var animationComponent = store.getComponent(ref, PlayerFaceAnimationComponent.getComponentType());
+        if (animationComponent != null) {
+            animationComponent.setUniqueId(faceId);
+        }
+        facePacketStore.removePlayer(playerId);
     }
 
     @Override

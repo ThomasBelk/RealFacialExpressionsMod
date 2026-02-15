@@ -1,5 +1,6 @@
 package net.thomasbelk.real_facial_expressions;
 
+import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -60,6 +61,11 @@ public class FacePacketStore {
         var faceId = playerIdToFaceId.get(playerId);
         if (faceId == null) return null;
         return latestPackets.get(faceId);
+    }
+
+    @Nullable
+    public UUID getFaceId(UUID playerId) {
+        return playerIdToFaceId.get(playerId);
     }
 
     public UUID getNewFaceId() {

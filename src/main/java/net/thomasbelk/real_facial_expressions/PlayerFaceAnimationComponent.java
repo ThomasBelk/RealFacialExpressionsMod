@@ -46,10 +46,7 @@ public class PlayerFaceAnimationComponent implements Component<EntityStore> {
         return uniqueId;
     }
 
-    public UUID resetUniqueId() {
-        uniqueId = UUID.randomUUID();
-        return uniqueId;
-    }
+    public void setUniqueId(UUID id) { this.uniqueId = id; }
 
     public static final BuilderCodec<PlayerFaceAnimationComponent> CODEC = BuilderCodec
             .builder(PlayerFaceAnimationComponent.class, PlayerFaceAnimationComponent::new)
