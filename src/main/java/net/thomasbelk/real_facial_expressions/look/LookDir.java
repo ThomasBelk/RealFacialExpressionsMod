@@ -1,15 +1,24 @@
 package net.thomasbelk.real_facial_expressions.look;
 
 public enum LookDir {
-    Up("up", "LookUp"),
-    Down("down", "LookDown"),
-    Left("left", "LookLeft"),
-    Right("right", "LookRight"),
-    UpLeft("upleft", "LookUpLeft"),
-    UpRight("upright", "LookUpRight"),
-    DownLeft("downleft", "LookDownLeft"),
-    DownRight("downright", "LookDownRight"),
-    Center("center", "LookCenter");
+//    Up("up", "LookUp"),
+//    Down("down", "LookDown"),
+//    Left("left", "LookLeft"),
+//    Right("right", "LookRight"),
+//    UpLeft("upleft", "LookUpLeft"),
+//    UpRight("upright", "LookUpRight"),
+//    DownLeft("downleft", "LookDownLeft"),
+//    DownRight("downright", "LookDownRight"),
+//    Center("center", "LookCenter");
+    Up("up", "LookCU"),
+    Down("down", "LookCD"),
+    Left("left", "LookLC"),
+    Right("right", "LookRC"),
+    UpLeft("upleft", "LookLU"),
+    UpRight("upright", "LookRU"),
+    DownLeft("downleft", "LookLD"),
+    DownRight("downright", "LookRD"),
+    Center("center", "LookCC");
 
     private final String name;
     private final String animName;
