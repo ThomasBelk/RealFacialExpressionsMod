@@ -3,6 +3,7 @@ package net.thomasbelk.real_facial_expressions;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
+import net.thomasbelk.real_facial_expressions.commands.DisplayFaceIdCommand;
 import net.thomasbelk.real_facial_expressions.commands.LookCommand;
 
 public class RealFacialExpressionsPlugin extends JavaPlugin {
@@ -37,6 +38,7 @@ public class RealFacialExpressionsPlugin extends JavaPlugin {
         // register commands
         this.getCommandRegistry().registerCommand(new LookFrontCommand());
         this.getCommandRegistry().registerCommand(new LookCommand());
+        this.getCommandRegistry().registerCommand(new DisplayFaceIdCommand(this.facePacketStore));
 
         // setup to receive face packets
         facePacketReceiver = new FacePacketReceiver(this.facePacketPort, this.facePacketStore);
