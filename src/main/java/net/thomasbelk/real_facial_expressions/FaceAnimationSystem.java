@@ -49,7 +49,9 @@ public class FaceAnimationSystem extends EntityTickingSystem<EntityStore> {
 //                AnimationUtils.playAnimation(ref, AnimationSlot.Face, null, LookDir.getAnimationId(facePacket.lookDir()), true, store);
                 var leftlid = EyelidState.getEyeLidStateFromBlendshapes(facePacket.blendshapes(), true);
                 var rightlid = EyelidState.getEyeLidStateFromBlendshapes(facePacket.blendshapes(), false);
-                var animName = getAnimName(lookDir, leftlid, rightlid);
+                var brows = BrowPos.getBrowPosFromBlendshapes(facePacket.blendshapes());
+                var mouth = MouthState.getMouthStateFromBlendshapes(facePacket.blendshapes());
+                var animName = getAnimName(lookDir, leftlid, rightlid, brows, mouth);
                 RealFacialExpressionsPlugin.LOGGER.atInfo().log(animName);
                 AnimationUtils.playAnimation(ref, AnimationSlot.Face, null, animName, true, store);
                 // another animation in the same spot clobbers previous animation. Is what I expected but am still sad lol.
@@ -60,12 +62,14 @@ public class FaceAnimationSystem extends EntityTickingSystem<EntityStore> {
         }
     }
 
-    private String getAnimName(String lookDir, EyelidState leftEyelid, EyelidState rightEyelid) {
+    private String getAnimName(String lookDir, EyelidState leftEyelid, EyelidState rightEyelid, BrowPos browPos, MouthState mouthState) {
         StringBuilder s = new StringBuilder();
         String sep = "_";
         s.append(lookDir).append(sep);
         s.append(leftEyelid.getLeftAnimId()).append(sep);
-        s.append(rightEyelid.getRightAnimId());
+        s.append(rightEyelid.getRightAnimId()).append(sep);
+        s.append(browPos.getAnimId()).append(sep);
+        s.append(mouthState.getAnimId());
         return s.toString();
     }
 

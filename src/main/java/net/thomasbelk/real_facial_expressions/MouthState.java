@@ -3,17 +3,19 @@ package net.thomasbelk.real_facial_expressions;
 import java.util.Map;
 
 public enum MouthState {
-    MouthOpen("Mouth Open"),
-    MouthClosed("Mouth Closed"),
-    Smile("Smile"),
-    SmileMouthOpen("Smile Mouth Open"),
-    MouthFrown("Mouth Frown");
+    MouthOpen("Mouth Open", "MouthO"),
+    MouthClosed("Mouth Closed", "MouthC"),
+    Smile("Smile", "MouthSC"),
+    SmileMouthOpen("Smile Mouth Open", "MouthSO"),
+    MouthFrown("Mouth Frown", "MouthF");
 
     private final static float DEFAULT_THRESHOLD = 0.5f;
     private final String name;
+    private final String animName;
 
-    MouthState(String name) {
+    MouthState(String name, String animName) {
         this.name = name;
+        this.animName = animName;
     }
 
     public static MouthState getMouthStateFromBlendshapes(Map<String, Float> blendshapes, float threshold) {
@@ -36,6 +38,10 @@ public enum MouthState {
         else if (isFrown) return MouthFrown;
         else if (isJawOpen) return MouthOpen;
         else return MouthClosed;
+    }
+
+    public String getAnimId() {
+        return this.animName;
     }
 
     public static MouthState getMouthStateFromBlendshapes(Map<String, Float> blendshapes) {
