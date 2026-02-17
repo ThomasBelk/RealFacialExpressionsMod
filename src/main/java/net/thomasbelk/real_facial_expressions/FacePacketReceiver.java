@@ -13,6 +13,7 @@ public class FacePacketReceiver implements Runnable {
     private FacePacketStore packetStore;
     private final AtomicBoolean running = new AtomicBoolean(true);
     private final Gson gson = new Gson();
+    private DatagramSocket socket;
 
     public FacePacketReceiver(int port, FacePacketStore store) {
         this.port = port;
@@ -21,7 +22,8 @@ public class FacePacketReceiver implements Runnable {
 
     @Override
     public void run() {
-        try (DatagramSocket socket = new DatagramSocket(port)) {
+        try {
+            socket = new DatagramSocket(port);
             byte[] data = new byte[4096];
             DatagramPacket packet = new DatagramPacket(data, data.length);
 
@@ -45,10 +47,17 @@ public class FacePacketReceiver implements Runnable {
             }
         } catch (Exception e) {
             System.err.println("Face UDP receiver stopped: " + e.getMessage());
+        } finally {
+            if (socket != null && !socket.isClosed()) {
+                socket.close();
+            }
         }
     }
 
     public void shutdown() {
         running.set(false);
+        if (socket != null && !socket.isClosed()) {
+            socket.close(); // unblock receive
+        }
     }
 }

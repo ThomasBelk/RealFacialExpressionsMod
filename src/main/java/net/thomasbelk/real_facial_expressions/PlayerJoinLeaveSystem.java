@@ -32,16 +32,10 @@ public class PlayerJoinLeaveSystem extends RefSystem<EntityStore> {
         var playerFaceAnimComponent = store.getComponent(ref, playerFaceAnimType);
         var id = facePacketStore.getNewFaceId();
         if (playerFaceAnimComponent != null) {
-//            playerRef.sendMessage(Message.raw(
-//                    "Already has component: " + playerFaceAnimComponent.toString()
-//            ));
             id = playerFaceAnimComponent.getUniqueId();
         } else {
             var p = new PlayerFaceAnimationComponent();
             commandBuffer.addComponent(ref, playerFaceAnimType, p);
-//            playerRef.sendMessage(Message.raw(
-//                    "Added component: " + p.toString()
-//            ));
             playerRef.sendMessage(Message.raw(id.toString()));
         }
 
@@ -69,6 +63,4 @@ public class PlayerJoinLeaveSystem extends RefSystem<EntityStore> {
     public @Nullable Query<EntityStore> getQuery() {
         return Archetype.of(PlayerRef.getComponentType());
     }
-
-    // TODO when rejoining try to use same id
 }

@@ -7,8 +7,7 @@ import com.hypixel.hytale.protocol.AnimationSlot;
 import com.hypixel.hytale.server.core.entity.AnimationUtils;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import net.thomasbelk.real_facial_expressions.look.InvalidLookDirNameException;
-import net.thomasbelk.real_facial_expressions.look.LookDir;
+import net.thomasbelk.real_facial_expressions.enums.*;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -40,24 +39,15 @@ public class FaceAnimationSystem extends EntityTickingSystem<EntityStore> {
             // anim
             try {
                 String lookDir = LookDir.getAnimationId(facePacket.lookDir());
-                String browPos = BrowPos.getBrowPosFromBlendshapes(facePacket.blendshapes()).toString();
-                String mouthState = MouthState.getMouthStateFromBlendshapes(facePacket.blendshapes()).toString();
-                String leftEyeLid = EyelidState.getEyeLidStateFromBlendshapes(facePacket.blendshapes(), true).toString();
-                String rightEyeLid = EyelidState.getEyeLidStateFromBlendshapes(facePacket.blendshapes(), false).toString();
-                RealFacialExpressionsPlugin.LOGGER.atInfo().log("Brow: " + browPos + " Mouth: " + mouthState + " Right: " + rightEyeLid + " Left: " + leftEyeLid);
-
-//                AnimationUtils.playAnimation(ref, AnimationSlot.Face, null, LookDir.getAnimationId(facePacket.lookDir()), true, store);
-                var leftlid = EyelidState.getEyeLidStateFromBlendshapes(facePacket.blendshapes(), true);
-                var rightlid = EyelidState.getEyeLidStateFromBlendshapes(facePacket.blendshapes(), false);
+                var leftLid = EyelidState.getEyeLidStateFromBlendshapes(facePacket.blendshapes(), true);
+                var rightLid = EyelidState.getEyeLidStateFromBlendshapes(facePacket.blendshapes(), false);
                 var brows = BrowPos.getBrowPosFromBlendshapes(facePacket.blendshapes());
                 var mouth = MouthState.getMouthStateFromBlendshapes(facePacket.blendshapes());
-                var animName = getAnimName(lookDir, leftlid, rightlid, brows, mouth);
-                RealFacialExpressionsPlugin.LOGGER.atInfo().log(animName);
+                var animName = getAnimName(lookDir, leftLid, rightLid, brows, mouth);
+
                 AnimationUtils.playAnimation(ref, AnimationSlot.Face, null, animName, true, store);
-                // another animation in the same spot clobbers previous animation. Is what I expected but am still sad lol.
-                //AnimationUtils.playAnimation(ref, AnimationSlot.Face, null, "LeftEyelid50", true, store);
             } catch (InvalidLookDirNameException e) {
-                // idk ignore, could potentially send error to the player in future? Idk if that would be helpful though
+                // ignore, could potentially send error to the player in future? Idk if that would be helpful though
             }
         }
     }
