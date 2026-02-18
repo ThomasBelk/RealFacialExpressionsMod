@@ -3,17 +3,14 @@ package net.thomasbelk.real_facial_expressions;
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.RefSystem;
-import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 public class PlayerJoinLeaveSystem extends RefSystem<EntityStore> {
-    FacePacketStore facePacketStore;
 
-    public PlayerJoinLeaveSystem(FacePacketStore facePacketStore) {
-        this.facePacketStore = facePacketStore;
+    public PlayerJoinLeaveSystem() {
     }
 
     @Override
@@ -30,17 +27,17 @@ public class PlayerJoinLeaveSystem extends RefSystem<EntityStore> {
 
         var playerFaceAnimType = PlayerFaceAnimationComponent.getComponentType();
         var playerFaceAnimComponent = store.getComponent(ref, playerFaceAnimType);
-        var id = facePacketStore.getNewFaceId();
+        var id = FacePacketStore.INSTANCE.getNewFaceId();
         if (playerFaceAnimComponent != null) {
             id = playerFaceAnimComponent.getUniqueId();
         } else {
             var p = new PlayerFaceAnimationComponent();
+            p.setUniqueId(id);
             commandBuffer.addComponent(ref, playerFaceAnimType, p);
-            playerRef.sendMessage(Message.raw(id.toString()));
         }
 
         RealFacialExpressionsPlugin.LOGGER.atInfo().log(playerRef.getUsername() + "'s FaceId = " + id.toString());
-        facePacketStore.addOrUpdatePlayerFaceId(playerRef.getUuid(), id);
+        FacePacketStore.INSTANCE.addOrUpdatePlayerFaceId(playerRef.getUuid(), id);
     }
 
     @Override
@@ -51,12 +48,12 @@ public class PlayerJoinLeaveSystem extends RefSystem<EntityStore> {
         if (playerRef == null) return;
 
         var playerId = playerRef.getUuid();
-        var faceId = facePacketStore.getFaceId(playerId);
+        var faceId = FacePacketStore.INSTANCE.getFaceId(playerId);
         var animationComponent = store.getComponent(ref, PlayerFaceAnimationComponent.getComponentType());
         if (animationComponent != null) {
             animationComponent.setUniqueId(faceId);
         }
-        facePacketStore.removePlayer(playerId);
+        FacePacketStore.INSTANCE.removePlayer(playerId);
     }
 
     @Override

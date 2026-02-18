@@ -12,10 +12,9 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 public class FaceAnimationSystem extends EntityTickingSystem<EntityStore> {
-    FacePacketStore facePacketStore;
 
-    public FaceAnimationSystem(FacePacketStore facePacketStore) {
-        this.facePacketStore = facePacketStore;
+    public FaceAnimationSystem() {
+
     }
 
     @Override
@@ -34,7 +33,7 @@ public class FaceAnimationSystem extends EntityTickingSystem<EntityStore> {
         var playerFaceAnimComponent = store.getComponent(ref, playerFaceAnimType);
         if (playerFaceAnimComponent == null) return;
 
-        var facePacket = facePacketStore.getFacePackForPlayer(playerRef.getUuid());
+        var facePacket = FacePacketStore.INSTANCE.getFacePackForPlayer(playerRef.getUuid());
         if (facePacket != null && facePacket.lookDir() != null) {
             // anim
             try {

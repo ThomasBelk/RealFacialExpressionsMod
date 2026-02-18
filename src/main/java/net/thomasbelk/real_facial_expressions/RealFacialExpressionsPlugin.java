@@ -5,10 +5,10 @@ import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import net.thomasbelk.real_facial_expressions.commands.DisplayFaceIdCommand;
 import net.thomasbelk.real_facial_expressions.commands.LookCommand;
+import net.thomasbelk.real_facial_expressions.commands.ResetFaceIdCommand;
 
 public class RealFacialExpressionsPlugin extends JavaPlugin {
     public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
-    private FacePacketStore facePacketStore;
     private int facePacketPort = 25590;
     private FacePacketReceiver facePacketReceiver;
     private Thread reciverThread;
@@ -21,7 +21,6 @@ public class RealFacialExpressionsPlugin extends JavaPlugin {
 
     @Override
     protected void setup() {
-        this.facePacketStore = new FacePacketStore();
         // register components
         var entityStoreRegistry = this.getEntityStoreRegistry();
         var faceAnimComponentType = entityStoreRegistry.registerComponent(
@@ -32,16 +31,17 @@ public class RealFacialExpressionsPlugin extends JavaPlugin {
         PlayerFaceAnimationComponent.setComponentType(faceAnimComponentType);
 
         // register systems
-        entityStoreRegistry.registerSystem(new PlayerJoinLeaveSystem(this.facePacketStore));
-        entityStoreRegistry.registerSystem(new FaceAnimationSystem(this.facePacketStore));
+        entityStoreRegistry.registerSystem(new PlayerJoinLeaveSystem());
+        entityStoreRegistry.registerSystem(new FaceAnimationSystem());
 
         // register commands
         this.getCommandRegistry().registerCommand(new LookFrontCommand());
         this.getCommandRegistry().registerCommand(new LookCommand());
-        this.getCommandRegistry().registerCommand(new DisplayFaceIdCommand(this.facePacketStore));
+        this.getCommandRegistry().registerCommand(new DisplayFaceIdCommand());
+        this.getCommandRegistry().registerCommand(new ResetFaceIdCommand());
 
         // setup to receive face packets
-        facePacketReceiver = new FacePacketReceiver(this.facePacketPort, this.facePacketStore);
+        facePacketReceiver = new FacePacketReceiver(this.facePacketPort);
         reciverThread = new Thread(facePacketReceiver, "face-udp-receiver");
         reciverThread.start();
     }

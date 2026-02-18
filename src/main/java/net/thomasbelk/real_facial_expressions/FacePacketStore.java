@@ -6,15 +6,17 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class FacePacketStore {
+public enum FacePacketStore {
+    INSTANCE;
+
     /**
      * Map of faceId to FacePacket
      */
-    private final Map<UUID, FacePacket> latestPackets = new ConcurrentHashMap<UUID, FacePacket>();
+    private final Map<UUID, FacePacket> latestPackets = new ConcurrentHashMap<>();
     /**
      * Map of playerId to faceId
      */
-    private final Map<UUID, UUID> playerIdToFaceId = new ConcurrentHashMap<UUID, UUID>();
+    private final Map<UUID, UUID> playerIdToFaceId = new ConcurrentHashMap<>();
     /**
      * Set of current active faceIds. Is used to help validate packets.
      */
@@ -49,6 +51,7 @@ public class FacePacketStore {
         if (faceIdToRemove != null) {
             latestPackets.remove(faceIdToRemove);
             activeFaceIds.remove(faceIdToRemove);
+            playerIdToFaceId.remove(playerId);
         }
     }
 

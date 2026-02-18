@@ -14,7 +14,7 @@ import org.jspecify.annotations.NonNull;
 import java.util.UUID;
 
 public class FaceIdUI extends InteractiveCustomUIPage<FaceIdUI.CloseEventData> {
-    private UUID faceId;
+    private final UUID faceId;
     public FaceIdUI(PlayerRef playerRef, UUID faceId) {
         super(playerRef, CustomPageLifetime.CanDismiss, CloseEventData.CODEC);
         this.faceId = faceId;

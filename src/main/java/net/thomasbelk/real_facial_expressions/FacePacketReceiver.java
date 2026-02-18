@@ -10,14 +10,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class FacePacketReceiver implements Runnable {
 
     private final int port;
-    private FacePacketStore packetStore;
     private final AtomicBoolean running = new AtomicBoolean(true);
     private final Gson gson = new Gson();
     private DatagramSocket socket;
 
-    public FacePacketReceiver(int port, FacePacketStore store) {
+    public FacePacketReceiver(int port) {
         this.port = port;
-        this.packetStore = store;
     }
 
     @Override
@@ -38,8 +36,8 @@ public class FacePacketReceiver implements Runnable {
 
                 try {
                     FacePacket facePacket = gson.fromJson(json, FacePacket.class);
-                    if (facePacket != null && packetStore.hasValidFaceId(facePacket.faceId())) {
-                        packetStore.putPacket(facePacket.faceId(), facePacket);
+                    if (facePacket != null && FacePacketStore.INSTANCE.hasValidFaceId(facePacket.faceId())) {
+                        FacePacketStore.INSTANCE.putPacket(facePacket.faceId(), facePacket);
                     }
                 } catch (JsonSyntaxException ignored) {
                     // malformed packet — drop silently

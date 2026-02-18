@@ -15,10 +15,8 @@ import org.jspecify.annotations.NonNull;
 import java.util.UUID;
 
 public class DisplayFaceIdCommand extends AbstractPlayerCommand {
-    private FacePacketStore facePacketStore;
-    public DisplayFaceIdCommand(FacePacketStore facePacketStore) {
+    public DisplayFaceIdCommand() {
         super("faceId", "Displays faceId to player.", false);
-        this.facePacketStore = facePacketStore;
     }
 
     @Override
@@ -31,9 +29,9 @@ public class DisplayFaceIdCommand extends AbstractPlayerCommand {
     ) {
         Player player = store.getComponent(ref, Player.getComponentType());
         if (player == null) return;
-        UUID faceId = facePacketStore.getFaceId(playerRef.getUuid());
+        UUID faceId = FacePacketStore.INSTANCE.getFaceId(playerRef.getUuid());
         if (faceId == null) {
-            //TODO: reset the player's face id. First try from their Animation Component
+            ResetFaceIdCommand.resetFaceIdForPlayer(store, ref, playerRef);
             return;
         }
         FaceIdUI page = new FaceIdUI(playerRef, faceId);
