@@ -17,7 +17,6 @@ repositories {
 dependencies {
     compileOnly(libs.jetbrains.annotations)
     compileOnly(libs.jspecify)
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.16.1")
 }
 
 hytale {
@@ -86,7 +85,7 @@ publishing {
     }
 }
 
-// IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
+// IDEA no longer automatically downloads sources/Javadoc jars for dependencies, so we need to explicitly enable the behavior.
 idea {
     module {
         isDownloadSources = true
