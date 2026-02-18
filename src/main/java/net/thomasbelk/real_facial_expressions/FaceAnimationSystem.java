@@ -22,16 +22,16 @@ public class FaceAnimationSystem extends EntityTickingSystem<EntityStore> {
     public void tick(
             float dt,
             int index,
-            @NonNull ArchetypeChunk archetypeChunk,
-            @NonNull Store store,
-            @NonNull CommandBuffer commandBuffer)
+            @NonNull ArchetypeChunk<EntityStore> archetypeChunk,
+            @NonNull Store<EntityStore> store,
+            @NonNull CommandBuffer<EntityStore> commandBuffer)
     {
         Ref<EntityStore> ref = archetypeChunk.getReferenceTo(index);
-        PlayerRef playerRef = (PlayerRef) store.getComponent(ref, PlayerRef.getComponentType());
+        PlayerRef playerRef = store.getComponent(ref, PlayerRef.getComponentType());
         if (playerRef == null) return;
 
         var playerFaceAnimType = PlayerFaceAnimationComponent.getComponentType();
-        var playerFaceAnimComponent = (PlayerFaceAnimationComponent) store.getComponent(ref, playerFaceAnimType);
+        var playerFaceAnimComponent = store.getComponent(ref, playerFaceAnimType);
         if (playerFaceAnimComponent == null) return;
 
         var facePacket = facePacketStore.getFacePackForPlayer(playerRef.getUuid());
@@ -53,14 +53,12 @@ public class FaceAnimationSystem extends EntityTickingSystem<EntityStore> {
     }
 
     private String getAnimName(String lookDir, EyelidState leftEyelid, EyelidState rightEyelid, BrowPos browPos, MouthState mouthState) {
-        StringBuilder s = new StringBuilder();
         String sep = "_";
-        s.append(lookDir).append(sep);
-        s.append(leftEyelid.getLeftAnimId()).append(sep);
-        s.append(rightEyelid.getRightAnimId()).append(sep);
-        s.append(browPos.getAnimId()).append(sep);
-        s.append(mouthState.getAnimId());
-        return s.toString();
+        return lookDir + sep +
+                leftEyelid.getLeftAnimId() + sep +
+                rightEyelid.getRightAnimId() + sep +
+                browPos.getAnimId() + sep +
+                mouthState.getAnimId();
     }
 
     @Override
