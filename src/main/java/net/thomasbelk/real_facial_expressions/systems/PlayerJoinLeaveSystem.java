@@ -1,10 +1,13 @@
-package net.thomasbelk.real_facial_expressions;
+package net.thomasbelk.real_facial_expressions.systems;
 
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.RefSystem;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import net.thomasbelk.real_facial_expressions.FacePacketStore;
+import net.thomasbelk.real_facial_expressions.RealFacialExpressionsPlugin;
+import net.thomasbelk.real_facial_expressions.components.PlayerFaceAnimationComponent;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 

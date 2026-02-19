@@ -8,7 +8,7 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import net.thomasbelk.real_facial_expressions.FaceIdUI;
+import net.thomasbelk.real_facial_expressions.ui.FaceIdUI;
 import net.thomasbelk.real_facial_expressions.FacePacketStore;
 import org.jspecify.annotations.NonNull;
 

@@ -1,4 +1,4 @@
-package net.thomasbelk.real_facial_expressions;
+package net.thomasbelk.real_facial_expressions.systems;
 
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
@@ -7,6 +7,8 @@ import com.hypixel.hytale.protocol.AnimationSlot;
 import com.hypixel.hytale.server.core.entity.AnimationUtils;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import net.thomasbelk.real_facial_expressions.FacePacketStore;
+import net.thomasbelk.real_facial_expressions.components.PlayerFaceAnimationComponent;
 import net.thomasbelk.real_facial_expressions.enums.*;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;

@@ -1,4 +1,4 @@
-package net.thomasbelk.real_facial_expressions;
+package net.thomasbelk.real_facial_expressions.commands;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
@@ -17,7 +17,7 @@ import com.hypixel.hytale.protocol.ServerCameraSettings;
  */
 public class LookFrontCommand extends AbstractPlayerCommand {
     private static final String NAME = "lookfront";
-    private static final String DESC = "Changes camera view to look at front of character";
+    private static final String DESC = "Changes camera view to look at front of character.";
     public LookFrontCommand() {
         super(NAME, DESC);
     }

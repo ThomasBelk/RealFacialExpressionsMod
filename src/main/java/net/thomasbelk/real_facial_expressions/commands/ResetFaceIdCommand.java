@@ -8,9 +8,9 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import net.thomasbelk.real_facial_expressions.FaceIdUI;
+import net.thomasbelk.real_facial_expressions.ui.FaceIdUI;
 import net.thomasbelk.real_facial_expressions.FacePacketStore;
-import net.thomasbelk.real_facial_expressions.PlayerFaceAnimationComponent;
+import net.thomasbelk.real_facial_expressions.components.PlayerFaceAnimationComponent;
 import org.jspecify.annotations.NonNull;
 
 public class ResetFaceIdCommand extends AbstractPlayerCommand {

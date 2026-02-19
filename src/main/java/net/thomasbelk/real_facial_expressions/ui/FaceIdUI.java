@@ -1,4 +1,4 @@
-package net.thomasbelk.real_facial_expressions;
+package net.thomasbelk.real_facial_expressions.ui;
 
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.Ref;

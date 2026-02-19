@@ -5,6 +5,7 @@ import com.google.gson.JsonSyntaxException;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.SocketTimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class FacePacketReceiver implements Runnable {
@@ -26,7 +27,11 @@ public class FacePacketReceiver implements Runnable {
             DatagramPacket packet = new DatagramPacket(data, data.length);
 
             while (running.get()) {
-                socket.receive(packet);
+                try {
+                    socket.receive(packet);
+                } catch (SocketTimeoutException ignored) {
+                    continue;
+                }
 
                 String json = new String(
                         packet.getData(),
@@ -44,6 +49,10 @@ public class FacePacketReceiver implements Runnable {
                 }
             }
         } catch (Exception e) {
+            if (!running.get()) {
+                RealFacialExpressionsPlugin.LOGGER.atInfo().log("Face UDP Receiver Shutdown Successfully!");
+                return;
+            }
             System.err.println("Face UDP receiver stopped: " + e.getMessage());
         } finally {
             if (socket != null && !socket.isClosed()) {
@@ -55,7 +64,7 @@ public class FacePacketReceiver implements Runnable {
     public void shutdown() {
         running.set(false);
         if (socket != null && !socket.isClosed()) {
-            socket.close(); // unblock receive
+            socket.close();
         }
     }
 }

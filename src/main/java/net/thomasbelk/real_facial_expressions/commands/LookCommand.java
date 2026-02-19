@@ -18,7 +18,7 @@ import org.jspecify.annotations.NonNull;
 
 public class LookCommand extends AbstractPlayerCommand {
     private static final String NAME = "look";
-    private static final String DESC = "Lets you look in a specified direction. Directions include: TODO";
+    private static final String DESC = "Lets you look in a specified direction. Directions include: left, right, up, down, upleft, upright, downleft, downright.";
     private final DefaultArg<String> lookDir;
 
 

@@ -3,13 +3,15 @@ package net.thomasbelk.real_facial_expressions;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
-import net.thomasbelk.real_facial_expressions.commands.DisplayFaceIdCommand;
-import net.thomasbelk.real_facial_expressions.commands.LookCommand;
-import net.thomasbelk.real_facial_expressions.commands.ResetFaceIdCommand;
+import com.hypixel.hytale.server.core.util.Config;
+import net.thomasbelk.real_facial_expressions.commands.*;
+import net.thomasbelk.real_facial_expressions.components.PlayerFaceAnimationComponent;
+import net.thomasbelk.real_facial_expressions.systems.FaceAnimationSystem;
+import net.thomasbelk.real_facial_expressions.systems.PlayerJoinLeaveSystem;
 
 public class RealFacialExpressionsPlugin extends JavaPlugin {
     public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
-    private int facePacketPort = 25590;
+    private final Config<RealFacialExpressionsConfig> config = this.withConfig("RealFacialExpressions", RealFacialExpressionsConfig.CODEC);
     private FacePacketReceiver facePacketReceiver;
     private Thread reciverThread;
 
@@ -21,6 +23,9 @@ public class RealFacialExpressionsPlugin extends JavaPlugin {
 
     @Override
     protected void setup() {
+        // config
+        config.save(); // ensures the config file is created if it dne.
+
         // register components
         var entityStoreRegistry = this.getEntityStoreRegistry();
         var faceAnimComponentType = entityStoreRegistry.registerComponent(
@@ -35,13 +40,10 @@ public class RealFacialExpressionsPlugin extends JavaPlugin {
         entityStoreRegistry.registerSystem(new FaceAnimationSystem());
 
         // register commands
-        this.getCommandRegistry().registerCommand(new LookFrontCommand());
-        this.getCommandRegistry().registerCommand(new LookCommand());
-        this.getCommandRegistry().registerCommand(new DisplayFaceIdCommand());
-        this.getCommandRegistry().registerCommand(new ResetFaceIdCommand());
+        this.getCommandRegistry().registerCommand(new RealFacialExpressionCommandCollection());
 
         // setup to receive face packets
-        facePacketReceiver = new FacePacketReceiver(this.facePacketPort);
+        facePacketReceiver = new FacePacketReceiver(this.config.get().getPort());
         reciverThread = new Thread(facePacketReceiver, "face-udp-receiver");
         reciverThread.start();
     }
@@ -52,7 +54,9 @@ public class RealFacialExpressionsPlugin extends JavaPlugin {
             facePacketReceiver.shutdown();
         }
         if (reciverThread != null) {
-            reciverThread.interrupt();
+            try {
+                reciverThread.join(); // wait for thread to exit
+            } catch (InterruptedException ignored) {}
         }
         super.shutdown();
     }
