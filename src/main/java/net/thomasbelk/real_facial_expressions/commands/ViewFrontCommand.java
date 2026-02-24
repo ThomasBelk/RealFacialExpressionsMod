@@ -15,10 +15,10 @@ import com.hypixel.hytale.protocol.ServerCameraSettings;
 /**
  * This is an example command that will simply print the name of the plugin in chat when used.
  */
-public class LookFrontCommand extends AbstractPlayerCommand {
-    private static final String NAME = "lookfront";
-    private static final String DESC = "Changes camera view to look at front of character.";
-    public LookFrontCommand() {
+public class ViewFrontCommand extends AbstractPlayerCommand {
+    private static final String NAME = "front";
+    private static final String DESC = "Changes camera view to look at character.";
+    public ViewFrontCommand() {
         super(NAME, DESC);
     }
 
