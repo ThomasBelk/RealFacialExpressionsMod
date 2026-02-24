@@ -1,8 +1,14 @@
-## Mirror your facial expressions to your character in real time!
+## Companion App (Optional for Gameplay, Necessary for Facial Expressions)
 
-Real Facial Animations uses a companion app to track your facial expressions through your webcam and transmit them to the game in real time.
+**Real Facial Expressions uses a companion app to track your facial expressions in real time.**
 
-**Note: The plugin only transmits facial blendshape data. No video or image data ever leaves your PC.**
+**With the companion app:** Facial expressions are mirrored on your character using your webcam.
+
+**Without the companion app:** You can still play the game normally, but facial animations will not be mirrored. Instead, the default Hytale idle animations will play.
+
+Download the companion app here: [Real Facial Expressions Companion App](https://github.com/ThomasBelk/FacialExpressionsCompanion/releases/latest)
+
+**Note: The plugin only transmits facial blendshape data and a derived eye look direction. No other video or image data ever leaves your PC.**
 
 ## Disclaimers
 - Real Facial Expressions is in early access and, therefore, is not currently recommended for large servers.
@@ -13,11 +19,11 @@ Real Facial Animations uses a companion app to track your facial expressions thr
 The project is currently licensed as All Rights Reserved. I plan to revisit this after further researching more licensing options.
 ## Installation Guide
 ### User
-1) Install the companion app.
-2) Connect to the server in Hytale.
+1) Install the companion app with the installer [Real Facial Expressions Companion App](https://github.com/ThomasBelk/FacialExpressionsCompanion/releases/latest).
+2) Connect to the desired server in Hytale.
 3) Run **/rfe faceId** in-game and copy the generated ID into the companion app.
 4) Enter the server IP and the port into the companion app. The default port is **25590**.
-    - Note: your faceId should not change so you will only have to do this once.
+   - Note: your faceId should not change so you will only have to do this once.
 5) Once you tab back into the game, your expressions should be mirrored on your character.
 ### Server Owners
 1) Install plugin.
