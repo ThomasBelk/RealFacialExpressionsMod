@@ -6,23 +6,26 @@ import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.Component;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import net.thomasbelk.real_facial_expressions.FaceSettings;
 import org.jspecify.annotations.Nullable;
 
 import java.util.UUID;
 
-// do I even need a component at this point lol? I guess to store the time, but UUID is also store in the packet store...
 public class PlayerFaceAnimationComponent implements Component<EntityStore> {
     private UUID uniqueId;
     private int ticksSinceLastPacket = 0;
+    private FaceSettings faceSettings;
 
 
     public PlayerFaceAnimationComponent() {
         uniqueId = UUID.randomUUID();
+        faceSettings = new FaceSettings();
     }
 
-    public PlayerFaceAnimationComponent(UUID id, int ticks) {
+    public PlayerFaceAnimationComponent(UUID id, int ticks, FaceSettings faceSet) {
         uniqueId = id;
         ticksSinceLastPacket = ticks;
+        faceSettings = faceSet;
     }
 
 
@@ -48,13 +51,22 @@ public class PlayerFaceAnimationComponent implements Component<EntityStore> {
 
     public void setUniqueId(UUID id) { this.uniqueId = id; }
 
+    public FaceSettings getFaceSettings() {
+        return this.faceSettings;
+    }
+
     public static final BuilderCodec<PlayerFaceAnimationComponent> CODEC = BuilderCodec
             .builder(PlayerFaceAnimationComponent.class, PlayerFaceAnimationComponent::new)
             .append(
                     new KeyedCodec<>("UniqueId", Codec.UUID_STRING),
                     (data, value) -> data.uniqueId = value,
                     (data) -> data.uniqueId
-            ).add().build();
+            ).add()
+            .append(new KeyedCodec<>("FaceSettings", FaceSettings.CODEC),
+                    (data, value) -> data.faceSettings = value,
+                    (data) -> data.faceSettings
+            ).add()
+            .build();
 
 
     private static ComponentType<EntityStore, PlayerFaceAnimationComponent> TYPE;
@@ -69,7 +81,7 @@ public class PlayerFaceAnimationComponent implements Component<EntityStore> {
 
     @Override
     public @Nullable Component<EntityStore> clone() {
-        return new PlayerFaceAnimationComponent(this.uniqueId, this.ticksSinceLastPacket);
+        return new PlayerFaceAnimationComponent(this.uniqueId, this.ticksSinceLastPacket, this.faceSettings);
     }
 
     @Override

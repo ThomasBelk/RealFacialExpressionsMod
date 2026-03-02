@@ -7,6 +7,7 @@ public class RealFacialExpressionCommandCollection extends AbstractCommandCollec
         super("rfe", "Real Facial Expression Commands");
         addSubCommand(new DisplayFaceIdCommand());
         addSubCommand(new ResetFaceIdCommand());
+        addSubCommand(new FaceSettingsCommand());
         addSubCommand(new DebugCommandCollection());
     }
 }

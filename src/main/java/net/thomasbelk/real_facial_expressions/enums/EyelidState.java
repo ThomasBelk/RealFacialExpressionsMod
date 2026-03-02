@@ -1,5 +1,7 @@
 package net.thomasbelk.real_facial_expressions.enums;
 
+import net.thomasbelk.real_facial_expressions.FaceSettings;
+
 import java.util.Map;
 
 public enum EyelidState {
@@ -10,8 +12,6 @@ public enum EyelidState {
     private final String name;
     private final String animNameLeft;
     private final String animNameRight;
-    private static final float CLOSED_THRESHOLD = 0.4f;
-    private static final float HALF_OPEN_THRESHOLD = 0.25f;
 
     EyelidState(String name, String animNameLeft, String animNameRight) {
         this.name = name;
@@ -49,8 +49,19 @@ public enum EyelidState {
     ) {
         return getEyeLidStateFromBlendshapes(
                 blendshapes,
-                CLOSED_THRESHOLD,
-                HALF_OPEN_THRESHOLD,
+                FaceSettings.DEFAULT_EYE_LID_CLOSED_THRESHOLD,
+                FaceSettings.DEFAULT_EYE_LID_HALF_OPEN_THRESHOLD,
+                isLeftEye
+        );
+    }
+
+    public static EyelidState getEyeLidStateFromBlendshapes(
+            Map<String, Float> blendshapes, boolean isLeftEye, FaceSettings faceSettings
+    ) {
+        return getEyeLidStateFromBlendshapes(
+                blendshapes,
+                faceSettings.getEyeLidClosedThreshold(),
+                faceSettings.getEyeLidHalfOpenThreshold(),
                 isLeftEye
         );
     }

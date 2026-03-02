@@ -39,15 +39,16 @@ public class FaceAnimationSystem extends EntityTickingSystem<EntityStore> {
         if (facePacket != null && facePacket.lookDir() != null) {
             // anim
             try {
+                var faceSettings = playerFaceAnimComponent.getFaceSettings();
                 String lookDir = LookDir.getAnimationId(facePacket.lookDir());
-                var leftLid = EyelidState.getEyeLidStateFromBlendshapes(facePacket.blendshapes(), true);
-                var rightLid = EyelidState.getEyeLidStateFromBlendshapes(facePacket.blendshapes(), false);
-                var brows = BrowPos.getBrowPosFromBlendshapes(facePacket.blendshapes());
-                var mouth = MouthState.getMouthStateFromBlendshapes(facePacket.blendshapes());
+                var leftLid = EyelidState.getEyeLidStateFromBlendshapes(facePacket.blendshapes(), true, faceSettings);
+                var rightLid = EyelidState.getEyeLidStateFromBlendshapes(facePacket.blendshapes(), false, faceSettings);
+                var brows = BrowPos.getBrowPosFromBlendshapes(facePacket.blendshapes(), faceSettings);
+                var mouth = MouthState.getMouthStateFromBlendshapes(facePacket.blendshapes(), faceSettings);
                 var animName = getAnimName(lookDir, leftLid, rightLid, brows, mouth);
 
                 AnimationUtils.playAnimation(ref, AnimationSlot.Face, null, animName, true, store);
-            } catch (InvalidLookDirNameException e) {
+            } catch (InvalidLookDirNameException e) { // do I even want this? should I not just default to center on error?
                 // ignore, could potentially send error to the player in future? Idk if that would be helpful though
             }
         }

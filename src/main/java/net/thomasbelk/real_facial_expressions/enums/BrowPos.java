@@ -1,5 +1,7 @@
 package net.thomasbelk.real_facial_expressions.enums;
 
+import net.thomasbelk.real_facial_expressions.FaceSettings;
+
 import java.util.Map;
 
 public enum BrowPos {
@@ -9,7 +11,6 @@ public enum BrowPos {
     BothUp("Both Up", "BrowU"),
     BothDown("Both Down", "BrowD");
 
-    private final static float DEFAULT_THRESHOLD = 0.5f;
     private final String name;
     private final String animName;
 
@@ -41,7 +42,11 @@ public enum BrowPos {
     }
 
     public static BrowPos getBrowPosFromBlendshapes(Map<String, Float> blendshapes) {
-        return getBrowPosFromBlendshapes(blendshapes, DEFAULT_THRESHOLD);
+        return getBrowPosFromBlendshapes(blendshapes, FaceSettings.DEFAULT_BROW_THRESHOLD);
+    }
+
+    public static BrowPos getBrowPosFromBlendshapes(Map<String, Float> blendshapes, FaceSettings faceSettings) {
+        return getBrowPosFromBlendshapes(blendshapes, faceSettings.getBrowThreshold());
     }
 
     public String getAnimId() {

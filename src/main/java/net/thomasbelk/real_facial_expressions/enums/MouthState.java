@@ -1,5 +1,7 @@
 package net.thomasbelk.real_facial_expressions.enums;
 
+import net.thomasbelk.real_facial_expressions.FaceSettings;
+
 import java.util.Map;
 
 public enum MouthState {
@@ -9,8 +11,6 @@ public enum MouthState {
     SmileMouthOpen("Smile Mouth Open", "MouthSO"),
     MouthFrown("Mouth Frown", "MouthF");
 
-    private final static float DEFAULT_SMILE_THRESHOLD = 0.3f;
-    private final static float DEFAULT_JAW_OPEN_THRESHOLD = 0.05f;
     private final String name;
     private final String animName;
 
@@ -47,7 +47,11 @@ public enum MouthState {
     }
 
     public static MouthState getMouthStateFromBlendshapes(Map<String, Float> blendshapes) {
-        return getMouthStateFromBlendshapes(blendshapes, DEFAULT_SMILE_THRESHOLD, DEFAULT_JAW_OPEN_THRESHOLD);
+        return getMouthStateFromBlendshapes(blendshapes, FaceSettings.DEFAULT_SMILE_THRESHOLD, FaceSettings.DEFAULT_MOUTH_OPEN_THRESHOLD);
+    }
+
+    public static MouthState getMouthStateFromBlendshapes(Map<String, Float> blendshapes, FaceSettings faceSettings) {
+        return getMouthStateFromBlendshapes(blendshapes, faceSettings.getSmileThreshold(), faceSettings.getMouthOpenThreshold());
     }
 
     @Override
