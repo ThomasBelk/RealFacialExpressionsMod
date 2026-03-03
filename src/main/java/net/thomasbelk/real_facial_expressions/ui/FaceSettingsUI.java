@@ -5,8 +5,11 @@ import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.protocol.packets.camera.SetServerCamera;
 import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
+import com.hypixel.hytale.protocol.packets.interface_.Page;
+import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.entity.entities.player.pages.InteractiveCustomUIPage;
 import com.hypixel.hytale.server.core.ui.builder.EventData;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
@@ -22,9 +25,13 @@ public class FaceSettingsUI extends InteractiveCustomUIPage<FaceSettingsUI.FaceS
     PlayerRef playerRef;
 
     public FaceSettingsUI(@NonNull PlayerRef playerRef, @NonNull FaceSettings faceSettings) {
-        super(playerRef, CustomPageLifetime.CanDismiss, FaceSettingsEventData.CODEC);
+        super(playerRef, CustomPageLifetime.CantClose, FaceSettingsEventData.CODEC);
         this.faceSettings = faceSettings;
         this.playerRef = playerRef;
+    }
+
+    private void setDefaultToolTipText(@NonNull UICommandBuilder cmd) {
+//        cmd.set() gonna set here in case defaults change.
     }
 
     private void setSliderValues(@NonNull UICommandBuilder cmd) {
@@ -33,6 +40,11 @@ public class FaceSettingsUI extends InteractiveCustomUIPage<FaceSettingsUI.FaceS
         cmd.set("#EyeLidHalfOpenThreshold.Value", faceSettings.getEyeLidHalfOpenThreshold());
         cmd.set("#SmileThreshold.Value", faceSettings.getSmileThreshold());
         cmd.set("#MouthOpenThreshold.Value", faceSettings.getMouthOpenThreshold());
+        cmd.set("#BrowThresholdLabel.Text", Float.toString(faceSettings.getBrowThreshold()));
+        cmd.set("#EyeLidClosedThresholdLabel.Text", Float.toString(faceSettings.getEyeLidClosedThreshold()));
+        cmd.set("#EyeLidHalfOpenThresholdLabel.Text", Float.toString(faceSettings.getEyeLidHalfOpenThreshold()));
+        cmd.set("#SmileThresholdLabel.Text", Float.toString(faceSettings.getSmileThreshold()));
+        cmd.set("#MouthOpenThresholdLabel.Text", Float.toString(faceSettings.getMouthOpenThreshold()));
     }
 
     @Override
@@ -49,6 +61,7 @@ public class FaceSettingsUI extends InteractiveCustomUIPage<FaceSettingsUI.FaceS
         evt.addEventBinding(CustomUIEventBindingType.MouseButtonReleased, "#SmileThreshold", new EventData().append("@SmileThreshold", "#SmileThreshold.Value"));
         evt.addEventBinding(CustomUIEventBindingType.MouseButtonReleased, "#MouthOpenThreshold", new EventData().append("@MouthOpenThreshold", "#MouthOpenThreshold.Value"));
         evt.addEventBinding(CustomUIEventBindingType.Activating, "#ResetButton", new EventData().append("@Reset", "#ResetButton.Visible")); // this seems dumb, there has to be a better way
+        evt.addEventBinding(CustomUIEventBindingType.Activating, "#SaveAndExit", new EventData().append("@SaveAndExit", "#SaveAndExit.Visible")); // this seems dumb, there has to be a better way
     }
 
     @Override
@@ -57,29 +70,42 @@ public class FaceSettingsUI extends InteractiveCustomUIPage<FaceSettingsUI.FaceS
         if (data.BrowThreshold != null) {
             RealFacialExpressionsPlugin.LOGGER.atInfo().log("Eyebrow Event Triggered");
             faceSettings.setBrowThreshold(data.BrowThreshold);
+            cmd.set("#BrowThresholdLabel.Text", Float.toString(faceSettings.getBrowThreshold()));
         }
         if (data.EyeLidClosedThreshold != null) {
             RealFacialExpressionsPlugin.LOGGER.atInfo().log("EyelidCLosed Event Triggered");
             faceSettings.setEyeLidClosedThreshold(data.EyeLidClosedThreshold);
+            cmd.set("#EyeLidClosedThresholdLabel.Text", Float.toString(faceSettings.getEyeLidClosedThreshold()));
         }
         if (data.EyeLidHalfOpenThreshold != null) {
             RealFacialExpressionsPlugin.LOGGER.atInfo().log("EyeLidHalfOpenThreshold Event Triggered");
             faceSettings.setEyeLidHalfOpenThreshold(data.EyeLidHalfOpenThreshold);
+            cmd.set("#EyeLidHalfOpenThresholdLabel.Text", Float.toString(faceSettings.getEyeLidHalfOpenThreshold()));
         }
         if (data.SmileThreshold != null) {
             RealFacialExpressionsPlugin.LOGGER.atInfo().log("SmileThreshold Event Triggered");
             faceSettings.setSmileThreshold(data.SmileThreshold);
+            cmd.set("#SmileThresholdLabel.Text", Float.toString(faceSettings.getSmileThreshold()));
         }
         if (data.MouthOpenThreshold != null) {
             RealFacialExpressionsPlugin.LOGGER.atInfo().log("MouthOpenThreshold Event Triggered");
             faceSettings.setMouthOpenThreshold(data.MouthOpenThreshold);
+            cmd.set("#MouthOpenThresholdLabel.Text", Float.toString(faceSettings.getMouthOpenThreshold()));
         }
         if (data.Reset) {
             RealFacialExpressionsPlugin.LOGGER.atInfo().log("Reset Event Triggered");
             faceSettings.resetToDefaults();
             setSliderValues(cmd);
         }
-        sendUpdate(cmd, false);
+        if (data.SaveAndExit) {
+            RealFacialExpressionsPlugin.LOGGER.atInfo().log("Save and Exit Event Triggered");
+            Player p = store.getComponent(ref, Player.getComponentType());
+            assert (p != null);
+            playerRef.getPacketHandler().writeNoCache(new SetServerCamera());
+            p.getPageManager().setPage(ref, store, Page.None);
+        } else {
+            sendUpdate(cmd, false);
+        }
     }
 
     public static class FaceSettingsEventData {
@@ -89,6 +115,7 @@ public class FaceSettingsUI extends InteractiveCustomUIPage<FaceSettingsUI.FaceS
         public Float SmileThreshold;
         public Float MouthOpenThreshold;
         public Boolean Reset = false;
+        public Boolean SaveAndExit = false;
         public static final BuilderCodec<FaceSettingsUI.FaceSettingsEventData> CODEC =
                 BuilderCodec.builder(FaceSettingsUI.FaceSettingsEventData.class, FaceSettingsUI.FaceSettingsEventData::new)
                         .append(new KeyedCodec<>("@BrowThreshold", Codec.FLOAT),
@@ -109,6 +136,9 @@ public class FaceSettingsUI extends InteractiveCustomUIPage<FaceSettingsUI.FaceS
                         .append(new KeyedCodec<>("@Reset", Codec.BOOLEAN),
                                 (data, value) -> data.Reset = value,
                                 (data) -> data.Reset).add()
+                        .append(new KeyedCodec<>("@SaveAndExit", Codec.BOOLEAN),
+                                (data, value) -> data.SaveAndExit = value,
+                                (data) -> data.SaveAndExit).add()
                         .build();
     }
 }
