@@ -19,7 +19,7 @@ public enum BrowPos {
         this.animName = animName;
     }
 
-    public static BrowPos getBrowPosFromBlendshapes(Map<String, Float> blendshapes, float threshold) {
+    public static BrowPos getBrowPosFromBlendshapes(Map<String, Float> blendshapes, float upThreshold, float downThreshold) {
         if (blendshapes == null) {
             return BrowPos.Neutral;
         }
@@ -29,10 +29,10 @@ public enum BrowPos {
         float browOuterUpLeft = blendshapes.getOrDefault("browOuterUpLeft", 0f);
         float browOuterUpRight = blendshapes.getOrDefault("browOuterUpRight", 0f);
 
-        boolean leftUp = browOuterUpLeft > threshold || browInnerUp > threshold;
-        boolean rightUp = browOuterUpRight > threshold || browInnerUp > threshold;
-        boolean leftDown = browDownLeft > threshold;
-        boolean rightDown = browDownRight > threshold;
+        boolean leftUp = browOuterUpLeft > upThreshold || browInnerUp > upThreshold;
+        boolean rightUp = browOuterUpRight > upThreshold || browInnerUp > upThreshold;
+        boolean leftDown = browDownLeft > downThreshold;
+        boolean rightDown = browDownRight > downThreshold;
 
         if (leftUp && rightUp) return BrowPos.BothUp;
         else if (leftDown && rightDown) return BrowPos.BothDown;
@@ -42,11 +42,11 @@ public enum BrowPos {
     }
 
     public static BrowPos getBrowPosFromBlendshapes(Map<String, Float> blendshapes) {
-        return getBrowPosFromBlendshapes(blendshapes, FaceSettings.DEFAULT_BROW_THRESHOLD);
+        return getBrowPosFromBlendshapes(blendshapes, FaceSettings.DEFAULT_BROW_THRESHOLD, FaceSettings.DEFAULT_BROW_DOWN_THRESHOLD);
     }
 
     public static BrowPos getBrowPosFromBlendshapes(Map<String, Float> blendshapes, FaceSettings faceSettings) {
-        return getBrowPosFromBlendshapes(blendshapes, faceSettings.getBrowThreshold());
+        return getBrowPosFromBlendshapes(blendshapes, faceSettings.getBrowThreshold(), faceSettings.getBrowDownThreshold());
     }
 
     public String getAnimId() {

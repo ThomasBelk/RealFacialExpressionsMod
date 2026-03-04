@@ -31,7 +31,7 @@ $C = "../Common.ui";
 @FieldNumberGroup = Group {
     Anchor: (Width: 60);
     FlexWeight: 1;
-    Padding: (Top: 24, Bottom: 16);
+    Padding: (Top: 20, Bottom: 20);
     LayoutMode: Center;
 };
 
@@ -40,7 +40,7 @@ $C = "../Common.ui";
 };
 
 $C.@Container {
-    Anchor: (Right: 40, Width: 500, Height: 550);
+    Anchor: (Right: 20, Width: 600, Height: 600);
 
     #Title {
         $C.@Title { @Text = "Real Facial Expressions Settings"; }
@@ -51,7 +51,7 @@ $C.@Container {
             @SettingsGroup #BrowUp {
                 @FieldNameGroup {
                     @LabelText = "Brow Up";
-                    @HoverText = "The threshold that determines brow up. The default is 0.5";
+                    @HoverText = "The threshold that determines whether you eyebrow goes up. The default is 0.5";
                 }
                 @SliderGroup {
                     $C.@FloatSlider #BrowThreshold {
@@ -66,10 +66,28 @@ $C.@Container {
             }
         }
         @OuterSettingsGroup {
+            @SettingsGroup #BrowDown {
+                @FieldNameGroup {
+                    @LabelText = "Brow Down";
+                    @HoverText = "The threshold that determines whether you eyebrow goes down (furrows). The default is 0.5";
+                }
+                @SliderGroup {
+                    $C.@FloatSlider #BrowDownThreshold {
+                        Min: 0;
+                        Max: 1;
+                        Step: 0.01;
+                    }
+                }
+                @FieldNumberGroup {
+                    @FieldNumberLabel #BrowDownThresholdLabel {}
+                }
+            }
+        }
+        @OuterSettingsGroup {
             @SettingsGroup #EyeLidClosed {
                 @FieldNameGroup {
                     @LabelText = "Eye Lid Closed";
-                    @HoverText = "The threshold that determines when you eye is closed. The default is 0.4";
+                    @HoverText = "The threshold that determines when your eye is closed. The default is 0.4";
                 }
                 @SliderGroup {
                     $C.@FloatSlider #EyeLidClosedThreshold {
@@ -87,7 +105,7 @@ $C.@Container {
             @SettingsGroup #EyeLidHalfOpen {
                 @FieldNameGroup {
                     @LabelText = "Eye Lid Half Open";
-                    @HoverText = "The threshold that determines when you eye is closed. The default is 0.4";
+                    @HoverText = "The threshold that determines when your eye half open (squint). The default is 0.4";
                 }
                 @SliderGroup {
                     $C.@FloatSlider #EyeLidHalfOpenThreshold {
@@ -105,7 +123,7 @@ $C.@Container {
             @SettingsGroup #Smile {
                 @FieldNameGroup {
                     @LabelText = "Smile Active";
-                    @HoverText = "The threshold that determines brow up. The default is 0.5";
+                    @HoverText = "The threshold that determines if you are smiling. The default is 0.5";
                 }
                 @SliderGroup {
                     $C.@FloatSlider #SmileThreshold {
@@ -123,7 +141,7 @@ $C.@Container {
             @SettingsGroup #MouthOpen {
                 @FieldNameGroup {
                     @LabelText = "Mouth Open";
-                    @HoverText = "The threshold that determines brow up. The default is 0.5";
+                    @HoverText = "The threshold that determines if your mouth is open. The default is 0.5";
                 }
                 @SliderGroup {
                     $C.@FloatSlider #MouthOpenThreshold {
@@ -139,10 +157,18 @@ $C.@Container {
         }
         Group {
             LayoutMode: Right;
-            Padding: (Left: 20, Right: 20);
+            Padding: (Full: 0);
             FlexWeight: 1;
             Group {
-                Padding: (Left: 20, Right: 20);
+                Padding: (Right: 5);
+                FlexWeight: 1;
+                $C.@CancelTextButton #DiscardChanges {
+                    @Anchor = (Width: 180);
+                    @Text = "Cancel";
+                }
+            }
+            Group {
+                Padding: (Left: 5, Right: 5);
                 FlexWeight: 1;
                 $C.@SecondaryTextButton #ResetButton {
                     @Anchor = (Width: 180);
@@ -150,11 +176,11 @@ $C.@Container {
                 }
             }
             Group {
-                Padding: (Left: 20, Right: 20);
+                Padding: (Left: 5);
                 FlexWeight: 1;
                 $C.@TextButton #SaveAndExit {
                     @Anchor = (Width: 180);
-                    @Text = "Save and Exit";
+                    @Text = "Save";
                 }
             }
         }
