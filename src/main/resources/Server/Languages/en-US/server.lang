@@ -1,0 +1,13 @@
+faceSettingsUI.labels.browUp=Brow Up
+faceSettingsUI.labels.browDown=Brow Down
+faceSettingsUI.labels.eyelidClosed=Eyelid Closed
+faceSettingsUI.labels.eyelidHalfOpen=Eyelid Half Open
+faceSettingsUI.labels.smileActive=Smile Active
+faceSettingsUI.labels.mouthOpen=Mouth Open
+
+faceSettingsUI.tooltip.browUp=The brow up slider sets the threshold your eyebrow must reach to trigger the lift animation. The default is
+faceSettingsUI.tooltip.browDown=The brow down slider sets the threshold your eyebrow must reach to trigger the furrow animation. The default is
+faceSettingsUI.tooltip.eyelidClosed=The closed eyelid slider sets the threshold your eyelid must reach to register as fully closed. The default is
+faceSettingsUI.tooltip.eyelidHalfOpen=The half-open eyelid slider sets the threshold your eyelid must reach to register as half open (squint). The default is
+faceSettingsUI.tooltip.smileActive=The smile slider sets the threshold your facial expression must reach to trigger the smile animation. The default is
+faceSettingsUI.tooltip.mouthOpen=The mouth open slider sets the threshold your mouth must reach to trigger the open-mouth animation. The default is

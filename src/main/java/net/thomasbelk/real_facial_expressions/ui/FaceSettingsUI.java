@@ -9,6 +9,7 @@ import com.hypixel.hytale.protocol.packets.camera.SetServerCamera;
 import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
 import com.hypixel.hytale.protocol.packets.interface_.Page;
+import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.entity.entities.player.pages.InteractiveCustomUIPage;
 import com.hypixel.hytale.server.core.ui.builder.EventData;
@@ -32,10 +33,18 @@ public class FaceSettingsUI extends InteractiveCustomUIPage<FaceSettingsUI.FaceS
         this.playerRef = playerRef;
     }
 
-    private void setDefaultToolTipText(@NonNull UICommandBuilder cmd) {
-//        cmd.set() gonna set here in case defaults change.
+    private void setDefaultTextFromTranslation(@NonNull UICommandBuilder cmd) {
+        setTooltip(cmd, "#BrowUpLabel.TooltipText", "server.faceSettingsUI.tooltip.browUp", FaceSettings.DEFAULT_BROW_THRESHOLD);
+        setTooltip(cmd, "#BrowDownLabel.TooltipText", "server.faceSettingsUI.tooltip.browDown", FaceSettings.DEFAULT_BROW_DOWN_THRESHOLD);
+        setTooltip(cmd, "#EyeLidClosedLabel.TooltipText", "server.faceSettingsUI.tooltip.eyelidClosed", FaceSettings.DEFAULT_EYE_LID_CLOSED_THRESHOLD);
+        setTooltip(cmd, "#EyeLidHalfOpenLabel.TooltipText", "server.faceSettingsUI.tooltip.eyelidHalfOpen", FaceSettings.DEFAULT_EYE_LID_HALF_OPEN_THRESHOLD);
+        setTooltip(cmd, "#SmileLabel.TooltipText", "server.faceSettingsUI.tooltip.smileActive", FaceSettings.DEFAULT_SMILE_THRESHOLD);
+        setTooltip(cmd, "#MouthOpenLabel.TooltipText", "server.faceSettingsUI.tooltip.mouthOpen", FaceSettings.DEFAULT_MOUTH_OPEN_THRESHOLD);
+    }
 
-
+    public void setTooltip(@NonNull UICommandBuilder cmd, String selector, String translationKey, float defaultVal) {
+        var browUpTooltip = Message.translation(translationKey).getAnsiMessage() + " " + Float.toString(defaultVal);
+        cmd.set(selector, browUpTooltip);
     }
 
     private void setSliderValues(@NonNull UICommandBuilder cmd) {
@@ -56,6 +65,8 @@ public class FaceSettingsUI extends InteractiveCustomUIPage<FaceSettingsUI.FaceS
     @Override
     public void build(@NonNull Ref<EntityStore> ref, @NonNull UICommandBuilder cmd, @NonNull UIEventBuilder evt, @NonNull Store<EntityStore> store) {
         cmd.append("Pages/FaceSettingsPage.ui");
+
+        setDefaultTextFromTranslation(cmd);
 
         // set all the values
         setSliderValues(cmd);

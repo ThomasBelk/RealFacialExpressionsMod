@@ -10,17 +10,14 @@ $C = "../Common.ui";
     LayoutMode: Left;
 };
 
-@FieldNameGroup = Group {
-    TooltipText: @HoverText;
+@FieldNameLabel = Label {
+    TooltipText: "";
     TextTooltipStyle: $C.@DefaultTextTooltipStyle;
     Padding: (Top: 20, Bottom: 20);
     FlexWeight: 2;
     Anchor: (Left: 0, Width: 180);
-    LayoutMode: Left;
-    Label {
-        Text: @LabelText;
-        Style: (RenderBold: true);
-    }
+    Text: @LabelText;
+    Style: (RenderBold: true);
 };
 
 @FieldNumberLabel = Label {
@@ -40,7 +37,7 @@ $C = "../Common.ui";
 };
 
 $C.@Container {
-    Anchor: (Right: 20, Width: 600, Height: 600);
+    Anchor: (Right: 20, Width: 600, Height: 620);
 
     #Title {
         $C.@Title { @Text = "Real Facial Expressions Settings"; }
@@ -49,9 +46,8 @@ $C.@Container {
     #Content {
         @OuterSettingsGroup {
             @SettingsGroup #BrowUp {
-                @FieldNameGroup {
-                    @LabelText = "Brow Up";
-                    @HoverText = "The threshold that determines whether you eyebrow goes up. The default is 0.5";
+                @FieldNameLabel #BrowUpLabel {
+                    @LabelText = %server.faceSettingsUI.labels.browUp;
                 }
                 @SliderGroup {
                     $C.@FloatSlider #BrowThreshold {
@@ -67,9 +63,8 @@ $C.@Container {
         }
         @OuterSettingsGroup {
             @SettingsGroup #BrowDown {
-                @FieldNameGroup {
-                    @LabelText = "Brow Down";
-                    @HoverText = "The threshold that determines whether you eyebrow goes down (furrows). The default is 0.5";
+                @FieldNameLabel #BrowDownLabel {
+                    @LabelText = %server.faceSettingsUI.labels.browDown;
                 }
                 @SliderGroup {
                     $C.@FloatSlider #BrowDownThreshold {
@@ -85,9 +80,8 @@ $C.@Container {
         }
         @OuterSettingsGroup {
             @SettingsGroup #EyeLidClosed {
-                @FieldNameGroup {
-                    @LabelText = "Eye Lid Closed";
-                    @HoverText = "The threshold that determines when your eye is closed. The default is 0.4";
+                @FieldNameLabel #EyeLidClosedLabel {
+                    @LabelText = %server.faceSettingsUI.labels.eyelidClosed;
                 }
                 @SliderGroup {
                     $C.@FloatSlider #EyeLidClosedThreshold {
@@ -103,9 +97,8 @@ $C.@Container {
         }
         @OuterSettingsGroup {
             @SettingsGroup #EyeLidHalfOpen {
-                @FieldNameGroup {
-                    @LabelText = "Eye Lid Half Open";
-                    @HoverText = "The threshold that determines when your eye half open (squint). The default is 0.4";
+                @FieldNameLabel #EyeLidHalfOpenLabel {
+                    @LabelText = %server.faceSettingsUI.labels.eyelidHalfOpen;
                 }
                 @SliderGroup {
                     $C.@FloatSlider #EyeLidHalfOpenThreshold {
@@ -121,9 +114,8 @@ $C.@Container {
         }
         @OuterSettingsGroup {
             @SettingsGroup #Smile {
-                @FieldNameGroup {
-                    @LabelText = "Smile Active";
-                    @HoverText = "The threshold that determines if you are smiling. The default is 0.5";
+                @FieldNameLabel #SmileLabel {
+                    @LabelText = %server.faceSettingsUI.labels.smileActive;
                 }
                 @SliderGroup {
                     $C.@FloatSlider #SmileThreshold {
@@ -139,9 +131,8 @@ $C.@Container {
         }
         @OuterSettingsGroup {
             @SettingsGroup #MouthOpen {
-                @FieldNameGroup {
-                    @LabelText = "Mouth Open";
-                    @HoverText = "The threshold that determines if your mouth is open. The default is 0.5";
+                @FieldNameLabel #MouthOpenLabel {
+                    @LabelText = %server.faceSettingsUI.labels.mouthOpen;
                 }
                 @SliderGroup {
                     $C.@FloatSlider #MouthOpenThreshold {
@@ -157,7 +148,7 @@ $C.@Container {
         }
         Group {
             LayoutMode: Right;
-            Padding: (Full: 0);
+            Padding: (Top: 10, Bottom: 10);
             FlexWeight: 1;
             Group {
                 Padding: (Right: 5);
