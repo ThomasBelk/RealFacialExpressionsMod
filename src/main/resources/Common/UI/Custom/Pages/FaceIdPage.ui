@@ -1,24 +1,22 @@
-// Import Common.ui for TextField
 $C = "../Common.ui";
 
-Group {
+$C.@Container {
     Anchor: (Width: 400, Height: 100);
-    Background: #1a1a2e(0.95);
-    LayoutMode: Top;
-    Padding: (Full: 20);
-
-    Label #Title {
-        Text: "Face ID";
-        Anchor: (Height: 0);
-        Style: (FontSize: 18, TextColor: #ffffff, Alignment: Center);
+    #Title {
+        $C.@Title { @Text = %server.faceId.label; }
     }
 
-    Group { Anchor: (Height: 25); }
-
-    $C.@TextField #FaceId {
-        Anchor: (Height: 35);
-        Value: "Failed";
-        AutoFocus: true;
-        AutoSelectAll: true;
+    #Content {
+        Group {
+            LayoutMode: Center;
+            Padding: (Horizontal: 0, Top: 5, Bottom: 10);
+            $C.@TextField #FaceId {
+                FlexWeight: 1;
+                Value: "Failed";
+                AutoFocus: true;
+                AutoSelectAll: true;
+                IsReadOnly: true;
+            }
+        }
     }
 }

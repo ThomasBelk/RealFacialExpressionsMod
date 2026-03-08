@@ -11,3 +11,5 @@ faceSettingsUI.tooltip.eyelidClosed=The closed eyelid slider sets the threshold 
 faceSettingsUI.tooltip.eyelidHalfOpen=The half-open eyelid slider sets the threshold your eyelid must reach to register as half open (squint). The default is
 faceSettingsUI.tooltip.smileActive=The smile slider sets the threshold your facial expression must reach to trigger the smile animation. The default is
 faceSettingsUI.tooltip.mouthOpen=The mouth open slider sets the threshold your mouth must reach to trigger the open-mouth animation. The default is
+
+faceId.label=Face ID
