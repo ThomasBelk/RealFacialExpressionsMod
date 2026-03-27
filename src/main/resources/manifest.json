@@ -5,14 +5,18 @@
   "Description": "${plugin_description}",
   "Authors": [
     {
-      "Name": "${plugin_author}"
+      "Name": "${plugin_author}",
+      "Email": "",
+      "Url": ""
     }
   ],
   "Website": "${plugin_website}",
   "ServerVersion": "${server_version}",
   "Dependencies": {},
   "OptionalDependencies": {},
+  "LoadBefore": {},
   "DisabledByDefault": false,
   "IncludesAssetPack": true,
+  "SubPlugins": [],
   "Main": "${plugin_main_entrypoint}"
 }

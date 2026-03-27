@@ -6,14 +6,14 @@ import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.util.Config;
 import net.thomasbelk.real_facial_expressions.commands.*;
 import net.thomasbelk.real_facial_expressions.components.PlayerFaceAnimationComponent;
+import net.thomasbelk.real_facial_expressions.network.NettyFacePacketReceiver;
 import net.thomasbelk.real_facial_expressions.systems.FaceAnimationSystem;
 import net.thomasbelk.real_facial_expressions.systems.PlayerJoinLeaveSystem;
 
 public class RealFacialExpressionsPlugin extends JavaPlugin {
     public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     private final Config<RealFacialExpressionsConfig> config = this.withConfig("RealFacialExpressions", RealFacialExpressionsConfig.CODEC);
-    private FacePacketReceiver facePacketReceiver;
-    private Thread reciverThread;
+    private NettyFacePacketReceiver receiver;
 
     public RealFacialExpressionsPlugin(JavaPluginInit init) {
         super(init);
@@ -43,21 +43,26 @@ public class RealFacialExpressionsPlugin extends JavaPlugin {
         this.getCommandRegistry().registerCommand(new RealFacialExpressionCommandCollection());
 
         // setup to receive face packets
-        facePacketReceiver = new FacePacketReceiver(this.config.get().getPort());
-        reciverThread = new Thread(facePacketReceiver, "face-udp-receiver");
-        reciverThread.start();
+        receiver = new NettyFacePacketReceiver(this.config.get().getPort());
+        safeStartReceiver(receiver);
+    }
+
+    public void safeStartReceiver(NettyFacePacketReceiver receiver) {
+        try {
+            receiver.start();
+        } catch (InterruptedException e) {
+            LOGGER.atWarning().log("Receiver thread interrupted: " + e.getMessage());
+            Thread.currentThread().interrupt();
+            receiver.shutdown();
+        } catch (Exception e) {
+            LOGGER.atWarning().log(e.getMessage(), e.getStackTrace());
+            receiver.shutdown();
+        }
     }
 
     @Override
     protected void shutdown() {
-        if (facePacketReceiver != null) {
-            facePacketReceiver.shutdown();
-        }
-        if (reciverThread != null) {
-            try {
-                reciverThread.join(); // wait for thread to exit
-            } catch (InterruptedException ignored) {}
-        }
+        receiver.shutdown();
         super.shutdown();
     }
 }

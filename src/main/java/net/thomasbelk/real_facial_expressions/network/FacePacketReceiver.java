@@ -1,13 +1,17 @@
-package net.thomasbelk.real_facial_expressions;
+package net.thomasbelk.real_facial_expressions.network;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import net.thomasbelk.real_facial_expressions.FacePacket;
+import net.thomasbelk.real_facial_expressions.FacePacketStore;
+import net.thomasbelk.real_facial_expressions.RealFacialExpressionsPlugin;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketTimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+@Deprecated
 public class FacePacketReceiver implements Runnable {
 
     private final int port;
