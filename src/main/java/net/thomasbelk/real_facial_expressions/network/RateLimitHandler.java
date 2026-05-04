@@ -3,6 +3,7 @@ package net.thomasbelk.real_facial_expressions.network;
 import io.netty.channel.*;
 import io.netty.channel.socket.DatagramPacket;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -39,7 +40,12 @@ public class RateLimitHandler extends SimpleChannelInboundHandler<DatagramPacket
         RateLimiter limiter = limiters.get(key);
         if (limiter == null) {
             if (limiters.size() >= MAX_ENTRIES) {
-                return; // drop
+                // remove a random entry. Learned I can't just drop because someone could interrupt service by filling limiters map
+                Iterator<Map.Entry<String, RateLimiter>> it = limiters.entrySet().iterator();
+                if (it.hasNext()) {
+                    it.next();
+                    it.remove();
+                }
             }
             limiter = new RateLimiter(maxPerSecond, now);
             limiters.put(key, limiter);

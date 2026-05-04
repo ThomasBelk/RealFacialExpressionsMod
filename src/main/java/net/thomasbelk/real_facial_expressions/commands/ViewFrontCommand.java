@@ -13,7 +13,7 @@ import org.jspecify.annotations.NonNull;
 import com.hypixel.hytale.protocol.ServerCameraSettings;
 
 /**
- * This is an example command that will simply print the name of the plugin in chat when used.
+ * A debug command that looks at the front of the player
  */
 public class ViewFrontCommand extends AbstractPlayerCommand {
     private static final String NAME = "front";
@@ -42,7 +42,7 @@ public class ViewFrontCommand extends AbstractPlayerCommand {
         cameraSettings.eyeOffset = true;
         cameraSettings.positionDistanceOffsetType = PositionDistanceOffsetType.DistanceOffset;
         cameraSettings.rotationOffset = new Direction((float) Math.PI, 0, 0);
-        cameraSettings.planeNormal = new Vector3f(0.0f, 1.0f, 0.0f);
+//        cameraSettings.planeNormal = new Vector3f(0.0f, 1.0f, 0.0f);
         return cameraSettings;
     }
 }
