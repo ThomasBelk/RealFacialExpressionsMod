@@ -2,7 +2,13 @@ package net.thomasbelk.real_facial_expressions.commands;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.protocol.*;
+import com.hypixel.hytale.protocol.ClientCameraView;
+import com.hypixel.hytale.protocol.ServerCameraSettings;
+import com.hypixel.hytale.protocol.RotationType;
+import com.hypixel.hytale.protocol.MovementForceRotationType;
+import com.hypixel.hytale.protocol.PositionDistanceOffsetType;
+import com.hypixel.hytale.protocol.Position;
+import com.hypixel.hytale.protocol.Direction;
 import com.hypixel.hytale.protocol.packets.camera.SetServerCamera;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractPlayerCommand;
@@ -14,7 +20,11 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import net.thomasbelk.real_facial_expressions.RealFacialExpressionsPlugin;
 import net.thomasbelk.real_facial_expressions.components.PlayerFaceAnimationComponent;
 import net.thomasbelk.real_facial_expressions.ui.FaceSettingsUI;
+import org.joml.Vector3f;
 import org.jspecify.annotations.NonNull;
+
+import org.joml.Vector3d;
+import com.hypixel.hytale.math.vector.Rotation3f;
 
 public class FaceSettingsCommand extends AbstractPlayerCommand {
     private static final String NAME = "settings";
@@ -33,8 +43,8 @@ public class FaceSettingsCommand extends AbstractPlayerCommand {
         Player player = store.getComponent(ref, Player.getComponentType());
         if (player == null) return;
 
-        var position = playerRef.getTransform().getPosition();
-        var rotation = new com.hypixel.hytale.math.vector.Vector3f(0f, 0f, 0f);
+        Vector3d position = playerRef.getTransform().getPosition();
+        var rotation = new Rotation3f(0f, 0f, 0f);
 
         // Am I crazy or should this use CommandBuffer? How do I get the Command Buffer? It works though.
         // doing this to make sure we can always see players face when we enter the menu to tweak expressions.
