@@ -10,7 +10,7 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import net.thomasbelk.real_facial_expressions.ui.FaceIdUI;
 import net.thomasbelk.real_facial_expressions.FacePacketStore;
-import org.jspecify.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 import java.util.UUID;
 
@@ -21,11 +21,11 @@ public class DisplayFaceIdCommand extends AbstractPlayerCommand {
 
     @Override
     protected void execute(
-            @NonNull CommandContext commandContext,
-            @NonNull Store<EntityStore> store,
-            @NonNull Ref<EntityStore> ref,
-            @NonNull PlayerRef playerRef,
-            @NonNull World world
+            @Nonnull CommandContext commandContext,
+            @Nonnull Store<EntityStore> store,
+            @Nonnull Ref<EntityStore> ref,
+            @Nonnull PlayerRef playerRef,
+            @Nonnull World world
     ) {
         Player player = store.getComponent(ref, Player.getComponentType());
         if (player == null) return;

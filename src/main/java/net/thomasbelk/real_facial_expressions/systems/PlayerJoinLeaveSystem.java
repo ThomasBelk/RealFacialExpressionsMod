@@ -8,8 +8,10 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import net.thomasbelk.real_facial_expressions.FacePacketStore;
 import net.thomasbelk.real_facial_expressions.RealFacialExpressionsPlugin;
 import net.thomasbelk.real_facial_expressions.components.PlayerFaceAnimationComponent;
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 
 public class PlayerJoinLeaveSystem extends RefSystem<EntityStore> {
 
@@ -18,10 +20,10 @@ public class PlayerJoinLeaveSystem extends RefSystem<EntityStore> {
 
     @Override
     public void onEntityAdded(
-            @NonNull Ref<EntityStore> ref,
-            @NonNull AddReason addReason,
-            @NonNull Store<EntityStore> store,
-            @NonNull CommandBuffer<EntityStore> commandBuffer)
+            @Nonnull Ref<EntityStore> ref,
+            @Nonnull AddReason addReason,
+            @Nonnull Store<EntityStore> store,
+            @Nonnull CommandBuffer<EntityStore> commandBuffer)
     {
         if (addReason != AddReason.LOAD) return;
 
@@ -44,7 +46,7 @@ public class PlayerJoinLeaveSystem extends RefSystem<EntityStore> {
     }
 
     @Override
-    public void onEntityRemove(@NonNull Ref<EntityStore> ref, @NonNull RemoveReason removeReason, @NonNull Store<EntityStore> store, @NonNull CommandBuffer<EntityStore> commandBuffer) {
+    public void onEntityRemove(@Nonnull Ref<EntityStore> ref, @Nonnull RemoveReason removeReason, @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> commandBuffer) {
         if (removeReason != RemoveReason.UNLOAD) return;
 
         var playerRef = store.getComponent(ref, PlayerRef.getComponentType());

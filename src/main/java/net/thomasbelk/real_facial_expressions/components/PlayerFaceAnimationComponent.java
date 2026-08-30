@@ -7,8 +7,8 @@ import com.hypixel.hytale.component.Component;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import net.thomasbelk.real_facial_expressions.FaceSettings;
-import org.jspecify.annotations.Nullable;
 
+import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class PlayerFaceAnimationComponent implements Component<EntityStore> {

@@ -19,21 +19,22 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import net.thomasbelk.real_facial_expressions.FaceSettings;
 import net.thomasbelk.real_facial_expressions.RealFacialExpressionsPlugin;
-import org.jspecify.annotations.NonNull;
+import javax.annotation.Nonnull;
+
 
 public class FaceSettingsUI extends InteractiveCustomUIPage<FaceSettingsUI.FaceSettingsEventData> {
     FaceSettings faceSettings;
     PlayerRef playerRef;
     FaceSettings initialFaceSettings;
 
-    public FaceSettingsUI(@NonNull PlayerRef playerRef, @NonNull FaceSettings faceSettings) {
+    public FaceSettingsUI(@Nonnull PlayerRef playerRef, @Nonnull FaceSettings faceSettings) {
         super(playerRef, CustomPageLifetime.CantClose, FaceSettingsEventData.CODEC);
         this.faceSettings = faceSettings;
         this.initialFaceSettings = new FaceSettings(faceSettings);
         this.playerRef = playerRef;
     }
 
-    private void setDefaultTextFromTranslation(@NonNull UICommandBuilder cmd) {
+    private void setDefaultTextFromTranslation(@Nonnull UICommandBuilder cmd) {
         setTooltip(cmd, "#BrowUpLabel.TooltipText", "server.faceSettingsUI.tooltip.browUp", FaceSettings.DEFAULT_BROW_THRESHOLD);
         setTooltip(cmd, "#BrowDownLabel.TooltipText", "server.faceSettingsUI.tooltip.browDown", FaceSettings.DEFAULT_BROW_DOWN_THRESHOLD);
         setTooltip(cmd, "#EyeLidClosedLabel.TooltipText", "server.faceSettingsUI.tooltip.eyelidClosed", FaceSettings.DEFAULT_EYE_LID_CLOSED_THRESHOLD);
@@ -42,12 +43,12 @@ public class FaceSettingsUI extends InteractiveCustomUIPage<FaceSettingsUI.FaceS
         setTooltip(cmd, "#MouthOpenLabel.TooltipText", "server.faceSettingsUI.tooltip.mouthOpen", FaceSettings.DEFAULT_MOUTH_OPEN_THRESHOLD);
     }
 
-    public void setTooltip(@NonNull UICommandBuilder cmd, String selector, String translationKey, float defaultVal) {
+    public void setTooltip(@Nonnull UICommandBuilder cmd, String selector, String translationKey, float defaultVal) {
         var browUpTooltip = Message.translation(translationKey).getAnsiMessage() + " " + Float.toString(defaultVal);
         cmd.set(selector, browUpTooltip);
     }
 
-    private void setSliderValues(@NonNull UICommandBuilder cmd) {
+    private void setSliderValues(@Nonnull UICommandBuilder cmd) {
         cmd.set("#BrowThreshold.Value", faceSettings.getBrowThreshold());
         cmd.set("#BrowDownThreshold.Value", faceSettings.getBrowDownThreshold());
         cmd.set("#EyeLidClosedThreshold.Value", faceSettings.getEyeLidClosedThreshold());
@@ -63,7 +64,7 @@ public class FaceSettingsUI extends InteractiveCustomUIPage<FaceSettingsUI.FaceS
     }
 
     @Override
-    public void build(@NonNull Ref<EntityStore> ref, @NonNull UICommandBuilder cmd, @NonNull UIEventBuilder evt, @NonNull Store<EntityStore> store) {
+    public void build(@Nonnull Ref<EntityStore> ref, @Nonnull UICommandBuilder cmd, @Nonnull UIEventBuilder evt, @Nonnull Store<EntityStore> store) {
         cmd.append("Pages/FaceSettingsPage.ui");
 
         setDefaultTextFromTranslation(cmd);
@@ -84,7 +85,7 @@ public class FaceSettingsUI extends InteractiveCustomUIPage<FaceSettingsUI.FaceS
     }
 
     @Override
-    public void handleDataEvent(@NonNull Ref<EntityStore> ref, @NonNull Store<EntityStore> store, FaceSettingsUI.@NonNull FaceSettingsEventData data) {
+    public void handleDataEvent(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store, @Nonnull FaceSettingsEventData data) {
         UICommandBuilder cmd = new UICommandBuilder();
         if (data.BrowThreshold != null) {
             RealFacialExpressionsPlugin.LOGGER.atInfo().log("Eyebrow Event Triggered");
@@ -135,7 +136,7 @@ public class FaceSettingsUI extends InteractiveCustomUIPage<FaceSettingsUI.FaceS
         sendUpdate(cmd, false);
     }
 
-    public void closePage(@NonNull Ref<EntityStore> ref, @NonNull Store<EntityStore> store) {
+    public void closePage(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store) {
         Player p = store.getComponent(ref, Player.getComponentType());
         assert (p != null);
         playerRef.getPacketHandler().writeNoCache(new SetServerCamera());
@@ -152,8 +153,8 @@ public class FaceSettingsUI extends InteractiveCustomUIPage<FaceSettingsUI.FaceS
         public Boolean Reset = false;
         public Boolean SaveAndExit = false;
         public Boolean DiscardChanges = false;
-        public static final BuilderCodec<FaceSettingsUI.FaceSettingsEventData> CODEC =
-                BuilderCodec.builder(FaceSettingsUI.FaceSettingsEventData.class, FaceSettingsUI.FaceSettingsEventData::new)
+        public static final BuilderCodec<FaceSettingsEventData> CODEC =
+                BuilderCodec.builder(FaceSettingsEventData.class, FaceSettingsEventData::new)
                         .append(new KeyedCodec<>("@BrowThreshold", Codec.FLOAT),
                                 (data, value) -> data.BrowThreshold = value,
                                 (data) -> data.BrowThreshold).add()

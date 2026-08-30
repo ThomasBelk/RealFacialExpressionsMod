@@ -9,8 +9,7 @@ import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import org.jspecify.annotations.NonNull;
-
+import javax.annotation.Nonnull;
 import java.util.UUID;
 
 public class FaceIdUI extends InteractiveCustomUIPage<FaceIdUI.CloseEventData> {
@@ -21,7 +20,7 @@ public class FaceIdUI extends InteractiveCustomUIPage<FaceIdUI.CloseEventData> {
     }
 
     @Override
-    public void build(@NonNull Ref<EntityStore> ref, @NonNull UICommandBuilder cmd, @NonNull UIEventBuilder uiEventBuilder, @NonNull Store<EntityStore> store) {
+    public void build(@Nonnull Ref<EntityStore> ref, @Nonnull UICommandBuilder cmd, @Nonnull UIEventBuilder uiEventBuilder, @Nonnull Store<EntityStore> store) {
         cmd.append("Pages/FaceIdPage.ui");
 
         cmd.set("#FaceId.Value", faceId.toString());

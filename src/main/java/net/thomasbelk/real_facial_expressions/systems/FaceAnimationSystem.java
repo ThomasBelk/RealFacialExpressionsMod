@@ -10,8 +10,9 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import net.thomasbelk.real_facial_expressions.FacePacketStore;
 import net.thomasbelk.real_facial_expressions.components.PlayerFaceAnimationComponent;
 import net.thomasbelk.real_facial_expressions.enums.*;
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class FaceAnimationSystem extends EntityTickingSystem<EntityStore> {
 
@@ -23,9 +24,9 @@ public class FaceAnimationSystem extends EntityTickingSystem<EntityStore> {
     public void tick(
             float dt,
             int index,
-            @NonNull ArchetypeChunk<EntityStore> archetypeChunk,
-            @NonNull Store<EntityStore> store,
-            @NonNull CommandBuffer<EntityStore> commandBuffer)
+            @Nonnull ArchetypeChunk<EntityStore> archetypeChunk,
+            @Nonnull Store<EntityStore> store,
+            @Nonnull CommandBuffer<EntityStore> commandBuffer)
     {
         Ref<EntityStore> ref = archetypeChunk.getReferenceTo(index);
         PlayerRef playerRef = store.getComponent(ref, PlayerRef.getComponentType());

@@ -11,7 +11,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import net.thomasbelk.real_facial_expressions.ui.FaceIdUI;
 import net.thomasbelk.real_facial_expressions.FacePacketStore;
 import net.thomasbelk.real_facial_expressions.components.PlayerFaceAnimationComponent;
-import org.jspecify.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public class ResetFaceIdCommand extends AbstractPlayerCommand {
     public ResetFaceIdCommand() {
@@ -19,11 +19,11 @@ public class ResetFaceIdCommand extends AbstractPlayerCommand {
     }
 
     @Override
-    protected void execute(@NonNull CommandContext commandContext, @NonNull Store<EntityStore> store, @NonNull Ref<EntityStore> ref, @NonNull PlayerRef playerRef, @NonNull World world) {
+    protected void execute(@Nonnull CommandContext commandContext, @Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> ref, @Nonnull PlayerRef playerRef, @Nonnull World world) {
         resetFaceIdForPlayer(store, ref, playerRef);
     }
 
-    static void resetFaceIdForPlayer(@NonNull Store<EntityStore> store, @NonNull Ref<EntityStore> ref, @NonNull PlayerRef playerRef) {
+    static void resetFaceIdForPlayer(@Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> ref, @Nonnull PlayerRef playerRef) {
         Player player = store.getComponent(ref, Player.getComponentType());
         if (player == null) return;
 
