@@ -14,7 +14,7 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import net.thomasbelk.real_facial_expressions.enums.InvalidLookDirNameException;
 import net.thomasbelk.real_facial_expressions.enums.LookDir;
-import org.jspecify.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public class LookCommand extends AbstractPlayerCommand {
     private static final String NAME = "look";
@@ -28,7 +28,7 @@ public class LookCommand extends AbstractPlayerCommand {
     }
 
     @Override
-    protected void execute(@NonNull CommandContext commandContext, @NonNull Store<EntityStore> store, @NonNull Ref<EntityStore> ref, @NonNull PlayerRef playerRef, @NonNull World world) {
+    protected void execute(@Nonnull CommandContext commandContext, @Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> ref, @Nonnull PlayerRef playerRef, @Nonnull World world) {
         try {
             AnimationUtils.playAnimation(ref, AnimationSlot.Face, null, LookDir.getAnimationId(this.lookDir.get(commandContext)), true, store);
         } catch (InvalidLookDirNameException e) {

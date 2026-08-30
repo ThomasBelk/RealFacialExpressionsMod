@@ -21,10 +21,10 @@ import net.thomasbelk.real_facial_expressions.RealFacialExpressionsPlugin;
 import net.thomasbelk.real_facial_expressions.components.PlayerFaceAnimationComponent;
 import net.thomasbelk.real_facial_expressions.ui.FaceSettingsUI;
 import org.joml.Vector3f;
-import org.jspecify.annotations.NonNull;
-
 import org.joml.Vector3d;
 import com.hypixel.hytale.math.vector.Rotation3f;
+import javax.annotation.Nonnull;
+
 
 public class FaceSettingsCommand extends AbstractPlayerCommand {
     private static final String NAME = "settings";
@@ -35,7 +35,7 @@ public class FaceSettingsCommand extends AbstractPlayerCommand {
     }
 
     @Override
-    protected void execute(@NonNull CommandContext commandContext, @NonNull Store<EntityStore> store, @NonNull Ref<EntityStore> ref, @NonNull PlayerRef playerRef, @NonNull World world) {
+    protected void execute(@Nonnull CommandContext commandContext, @Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> ref, @Nonnull PlayerRef playerRef, @Nonnull World world) {
         var playerAnimComponent = store.getComponent(ref, PlayerFaceAnimationComponent.getComponentType());
         if (playerAnimComponent == null) return;
         var playerFaceData = playerAnimComponent.getFaceSettings();
