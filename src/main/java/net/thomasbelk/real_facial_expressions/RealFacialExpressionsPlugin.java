@@ -9,20 +9,28 @@ import net.thomasbelk.real_facial_expressions.components.PlayerFaceAnimationComp
 import net.thomasbelk.real_facial_expressions.network.NettyFacePacketReceiver;
 import net.thomasbelk.real_facial_expressions.systems.FaceAnimationSystem;
 import net.thomasbelk.real_facial_expressions.systems.PlayerJoinLeaveSystem;
+import com.riprod.patchly.PatchManager;
 
 public class RealFacialExpressionsPlugin extends JavaPlugin {
     public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     private final Config<RealFacialExpressionsConfig> config = this.withConfig("RealFacialExpressions", RealFacialExpressionsConfig.CODEC);
     private NettyFacePacketReceiver receiver;
+    private final PatchManager patchManager;
 
     public RealFacialExpressionsPlugin(JavaPluginInit init) {
         super(init);
+        // patchly
+        patchManager = new PatchManager(this);
+
         LOGGER.atInfo().log("Hello from %s version %s", this.getName(), this.getManifest().getVersion().toString());
     }
 
 
     @Override
     protected void setup() {
+        // patchly
+        patchManager.install();
+
         // config
         config.save(); // ensures the config file is created if it dne.
 

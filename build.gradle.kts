@@ -3,6 +3,7 @@ plugins {
     idea
     java
     id("com.azuredoom.hytale-tools") version "1.+"
+    id("com.gradleup.shadow") version "8.3.5"
 }
 
 
@@ -37,13 +38,39 @@ hytaleTools {
     // hytaleHomeOverride = property("hytaleHomeOverride").toString()
 }
 
+configurations {
+    create("shaded")
+}
+
+dependencies {
+    // Patchly: compile dependency and included in the final Shadow JAR.
+    add("shaded", "com.riprod:patchly:3.+")
+    implementation("com.riprod:patchly:3.+")
+}
+
 repositories {
     mavenCentral()
 }
 
 tasks.named<Jar>("jar") {
+    enabled = false
+}
+
+tasks.shadowJar {
     archiveBaseName.set(project.property("mod_name").toString())
     archiveVersion.set(project.property("version").toString())
+    archiveClassifier.set("")
+
+    mergeServiceFiles()
+
+    // Shade only Patchly and its dependencies.
+    configurations = listOf(
+        project.configurations.getByName("shaded")
+    )
+}
+
+tasks.named("build") {
+    dependsOn(tasks.named("shadowJar"))
 }
 
 // Uncomment if you are using IntelliJ.
