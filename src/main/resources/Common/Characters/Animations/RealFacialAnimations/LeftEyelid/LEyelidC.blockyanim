@@ -3,16 +3,16 @@
   "duration": 3,
   "holdLastKeyframe": true,
   "nodeAnimations": {
-    "R-Eyelid": {
+    "R-Eyelid-Top": {
       "position": [
         {
           "time": 3,
           "delta": {
             "x": 0,
-            "y": -4,
+            "y": -3,
             "z": 0
           },
-          "interpolationType": "smooth"
+          "interpolationType": "linear"
         }
       ],
       "orientation": [],
@@ -24,9 +24,22 @@
             "y": 10,
             "z": 1
           },
-          "interpolationType": "smooth"
+          "interpolationType": "linear"
         }
       ],
+      "shapeVisible": [],
+      "shapeUvOffset": []
+    },
+    "R-Eyelash-Top": {
+      "position": [
+        {
+          "time": 3,
+          "delta": {"x": 0, "y": -5.9, "z": 0},
+          "interpolationType": "linear"
+        }
+      ],
+      "orientation": [],
+      "shapeStretch": [],
       "shapeVisible": [],
       "shapeUvOffset": []
     }
