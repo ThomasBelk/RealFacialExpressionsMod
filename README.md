@@ -13,7 +13,7 @@ Download the companion app here: [Real Facial Expressions Companion App](https:/
 ## Disclaimers
 - Real Facial Expressions is in early access and, therefore, is not currently recommended for large servers.
 - Real Facial Expressions uses a companion app to send data to the server. The connection fields are intended to remain private. Try not to leak them, or you will at least have to reset your faceId with **/rfe resetFaceId**
-- There will very likely be **conflicts** with other player animation plugins, particularly those that modify **Server/Models/Human/Player.json**.
+- Real Facial Expressions uses [Patchly](https://www.curseforge.com/hytale/mods/patchly) by [Riprod](https://www.curseforge.com/members/itsriprod/projects), this should hopefully eliminate compatibility issues with other cosmetic mods. If there are still issues, lmk.
 
 ## Lisence
 The project is currently licensed as All Rights Reserved. I plan to revisit this after further researching more licensing options.
